@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      gridRow: {
+        'span-16': 'span 16 / span 16',
+      }
     },
   },
   plugins: [],
