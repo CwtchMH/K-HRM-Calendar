@@ -1,9 +1,11 @@
 "use client";
 
+import Calendar from "@/app/components/calendar";
+
 export default function Page() {
   return (
     <div>
-      <h1>Calendar</h1>
+      <Calendar />
     </div>
   );
 }
