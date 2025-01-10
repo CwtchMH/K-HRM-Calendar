@@ -1,47 +1,33 @@
+'use client'
 
-export default function CalendarDays({dayDate} : {dayDate: Date}) {
-  const firstDayOfMonth = new Date(
-    dayDate.getFullYear(),
-    dayDate.getMonth(),
-    1
-  );
-  const weekdayOfFirstDay = firstDayOfMonth.getDay();
-  const currentDays = [];
+import { calculateDate } from "../composables/calculateDate";
+import { Timeline } from "../lib/definitions";
 
-  for (let day = 0; day < 42; day++) {
-    if (day === 0 && weekdayOfFirstDay === 0) {
-      firstDayOfMonth.setDate(firstDayOfMonth.getDate() - 6);
-    } else if (day === 0) {
-      firstDayOfMonth.setDate(
-        firstDayOfMonth.getDate() + (day - weekdayOfFirstDay + 1)
-      );
-    } else {
-      firstDayOfMonth.setDate(firstDayOfMonth.getDate() + 1);
-    }
+export default function CalendarDays({ timelines, dayDate }: { timelines: Timeline[], dayDate: Date }) {
 
-    const calendarDay = {
-      currentMonth: firstDayOfMonth.getMonth() === dayDate.getMonth(),
-      date: new Date(firstDayOfMonth),
-      month: firstDayOfMonth.getMonth(),
-      number: firstDayOfMonth.getDate(),
-      selected: firstDayOfMonth.toDateString() === dayDate.toDateString(),
-      year: firstDayOfMonth.getFullYear(),
-    };
-
-    currentDays.push(calendarDay);
-  }
-
-  const lastIndex = currentDays[35].currentMonth ? 42 : 35;
+  const currentDays = calculateDate(dayDate, timelines);
 
   return (
     <div className="table-content h-full grid grid-cols-7">
-      {currentDays.slice(0, lastIndex).map((day) => {
+      {currentDays.map((day) => {
         return (
           <div
             key={day.date.toDateString()}
-            className={`calendar-day border text-end text-sm ${day.currentMonth ? "text-black" : "text-gray-400"}`}
+            className={`calendar-day border ${day.currentMonth ? "text-black" : "text-gray-400"}`}
           >
-            {day.number.toString().padStart(2, '0')}/{(day.month + 1).toString().padStart(2, '0')}
+            <div className="text-sm text-end">
+              {day.number.toString().padStart(2, "0")}/
+              {(day.month + 1).toString().padStart(2, "0")}
+            </div>
+            <div
+              className={`flex flex-col justify-center items-center mt-3 ${day.currentMonth ? "" : "hidden"} ${day.startTime ? "" : "text-gray-600"}`}
+            >
+              <span>Log Work: {day.logTime}</span>
+              <span>Total: {day.workHours}</span>
+              <span className={`text-red-500 ${day.startTime ? "" : "hidden"}`}>
+                {day.startTime} - {day.endTime}
+              </span>
+            </div>
           </div>
         );
       })}

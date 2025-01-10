@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { buttonVariants } from "./button";
@@ -38,7 +40,7 @@ function MonthPicker({
   variant,
   className,
   ...props
-}:  React.HTMLAttributes<HTMLDivElement> & MonthCalProps) {
+}: React.HTMLAttributes<HTMLDivElement> & MonthCalProps) {
   return (
     <div
       className={cn("min-w-[200px] w-[280px] p-3 bg-white", className)}
@@ -160,10 +162,13 @@ function MonthCal({
                           buttonVariants({
                             variant:
                               month == m.number && menuYear == year
-                                ? variant?.calendar?.selected ?? "default"
-                                : variant?.calendar?.main ?? "ghost",
+                                ? (variant?.calendar?.selected ?? "default")
+                                : (variant?.calendar?.main ?? "ghost"),
                           }),
-                          "h-full w-full p-0 font-normal aria-selected:opacity-100"
+                          "h-full w-full p-0 font-normal aria-selected:opacity-100",
+                          month === m.number && menuYear === year
+                            ? "bg-blue-500 text-white" // Màu nền xanh và chữ trắng nếu tháng được chọn
+                            : "text-black" // Màu nền mặc định
                         )}
                       >
                         {callbacks?.monthLabel

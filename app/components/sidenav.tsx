@@ -20,7 +20,7 @@ export default function SideNav() {
           <div className="mt-2 text-xl">K-HRM</div>
         </div>
       </Link>
-      <Link href="/dashboard">
+      <Link href="/dashboard" className="mb-2">
         <div
           className={` text-white flex justify-center items-center flex-col md:flex ${toggle ? "lg:flex" : "lg:hidden"}`}
         >

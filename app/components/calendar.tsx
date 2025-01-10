@@ -1,10 +1,14 @@
+'use client'
+
 import React from "react";
 import { useState } from "react";
-import CalendarDays from "./calendarDays";
-import Statistics from "./statistics";
-import MonthPickerPopover from "./monthpickerComponent";
+import CalendarDays from "@/app/components/calendarDays";
+import Statistics from "@/app/components/statistics";
+import MonthPickerPopover from "@/app/components/monthpickerComponent";
+import { Timeline, Summary, Total, Absence, Overtime } from "../lib/definitions";
 
-export default function Calendar() {
+export default function Calendar({ setMonthYear, summary, total, timelines, overtime, absence }: { setMonthYear: (date: string) => void, summary: Summary; total: Total; timelines: Timeline[], overtime: Overtime, absence: Absence }) {
+
   const weekdays = [
     "Thứ 2",
     "Thứ 3",
@@ -19,6 +23,7 @@ export default function Calendar() {
 
   const handleSetDate = (date: Date) => {
     setCurrentDate(date);
+    setMonthYear(`${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getFullYear()}`);
   };
 
   return (
@@ -51,7 +56,6 @@ export default function Calendar() {
           <MonthPickerPopover handleSetDate={handleSetDate} />
         </div>
       </div>
-      {/* them loading vao tung component */}
       <div className="calendar-body w-[100%] h-[95%] grid grid-cols-7">
         <div className="calendar-content h-[100%] col-span-6 grid grid-rows-16 border">
           <div className=" grid grid-cols-7">
@@ -67,10 +71,10 @@ export default function Calendar() {
             })}
           </div>
           <div className="row-span-15">
-            <CalendarDays dayDate={currentDate} />
+            <CalendarDays timelines={timelines} dayDate={currentDate} />
           </div>
         </div>
-        <Statistics />
+        <Statistics summary={summary} total={total} overtime={overtime} absence={absence} />
       </div>
     </div>
   );

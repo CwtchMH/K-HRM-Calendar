@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "./popover";
 import { Button } from "./button";
